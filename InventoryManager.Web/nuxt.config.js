@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - InventoryManager.Web',
-    title: 'InventoryManager.Web',
+    titleTemplate: '%s - ZDZCode Test',
+    title: 'InventoryManager',
     htmlAttrs: {
       lang: 'en'
     },

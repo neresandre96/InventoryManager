@@ -3,7 +3,7 @@
 
     <v-row justify="center" align="center" class="mb-8">
       <v-col cols="12" md="8" class="text-center">
-        <h1 class="font-weight-bold">Projeto de Gerenciamento de Estoque</h1>
+        <h1 class="font-weight-bold">📦 Projeto de Gerenciamento de Estoque</h1>
         <p>
           Este é um protótipo de um sistema de gerenciamento de estoque idealizado para o teste de desenvolvedor de
           software da ZDZCode.
