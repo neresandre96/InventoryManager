@@ -279,7 +279,7 @@ export default {
         this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false)
       }
     },
-    async handleExitSubmit(movementData) {
+    async handleExitSubmit(movementData, resetForm) {
       try {
         await inventoryService.createMovement(movementData);
 

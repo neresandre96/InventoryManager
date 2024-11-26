@@ -85,7 +85,7 @@ export default {
         price: 0
       }
 
-      this.$emit('submit', movementData, this.resetForm());
+      this.$emit('submit', movementData, this.resetForm);
     },
     resetForm() {
       this.form = {
