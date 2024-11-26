@@ -28,7 +28,7 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 ## Features
 
 - Autenticação e Autorização de usuário
-- Sport Multi-Tenant
+- Suport Multi-Tenant
 - Controle e gerenciamento de estoque
 
 
