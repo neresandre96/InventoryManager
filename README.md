@@ -5,7 +5,7 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 
 ## Problemas encontrados
 
-- O <v-navigation-drawer /> as vezes não aparece no modo de desenvolvedor ao fazer hot reload. Para voltar a aparecer é necessário recarregar a página.  
+- O menu as vezes não aparece no modo de desenvolvedor ao fazer hot reload. Para voltar a aparecer é necessário recarregar a página.  
 
 ## Estrutura do projeto
 
