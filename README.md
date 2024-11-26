@@ -25,10 +25,10 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 - Vuetify 2
 
 
-## Features
+## Funcionalidades
 
 - Autenticação e Autorização de usuário
-- Support Multi-Tenant
+- Suporte Multi-Tenant
 - Controle e gerenciamento de estoque
 
 
