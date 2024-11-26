@@ -1,6 +1,6 @@
 # ZDZCode - Inventory Manager
 
-Solução completa de gerenciamento de estoque com ASP.NET Core e Vue.js. Utilizei algumas técnicas que já conhecia como o gerenciamento de dados 
+Solução completa de gerenciamento de estoque com ASP.NET Core e Nuxt.js. Utilizei algumas técnicas que já conhecia como o gerenciamento de dados 
 multi-tenant, para isso foi necessário implementar uma autenticação e autorização básica.
 
 ## Problemas encontrados
