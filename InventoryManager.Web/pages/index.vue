@@ -8,7 +8,8 @@
           Este é um protótipo de um sistema de gerenciamento de estoque idealizado para o teste de desenvolvedor de
           software da ZDZCode.
         </p>
-
+        <a href="https://github.com/neresandre96/InventoryManager" target="_blank" rel="noreferrer noopener" />
+        
         <demo-login :is-authenticated="isAuthenticated" />
 
       </v-col>
