@@ -37,25 +37,25 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 
 ### Backend Setup
 
-1. Navegue para o projeto backend:
+1. Navegar para o projeto backend:
 ```bash
 cd InventoryManager.API
 ```
 
-2. Restaure as dependências:
+2. Restaurar as dependências:
 ```bash
 dotnet restore
 ```
-3. Roda as migrações:
+3. Rodar as migrações:
 ```bash
 dotnet ef database update --context <AppDbContext>
 dotnet ef database update --context <UserDbContext>
 ```
-4. Rode a API:
+4. Rodar a API:
 ```bash
 dotnet run dev
 ```
-5. Pegue a porta do servidor da API para adicionar no frontend.
+5. Pegar a porta do servidor da API para adicionar no frontend.
 
 
 ### Frontend Setup
