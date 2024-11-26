@@ -60,7 +60,7 @@ dotnet run dev
 
 ### Frontend Setup
 
-1. Navegue para o projeto frontend:
+1. Navegar para o projeto frontend:
 ```bash
 cd InventoryManager.Web
 ```
@@ -74,7 +74,7 @@ or
 yarn install
 ```
 
-3. Cria um arquivo `.env` na raiz do projeto e adicionar o seguinte conteúdo:
+3. Criar um arquivo `.env` na raiz do projeto e adicionar o seguinte conteúdo:
 ```bash
 VUE_APP_API_URL=http://localhost:<YOUR-API-PORT>/api
 VUE_APP_AUTH_URL=http://localhost:<YOUR-API-PORT>/auth
