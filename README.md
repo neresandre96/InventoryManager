@@ -48,8 +48,8 @@ dotnet restore
 ```
 3. Roda as migrações:
 ```bash
-dotnet ef database update --context <AppDbContext>
-dotnet ef database update --context <UserDbContext>
+dotnet ef database update --context AppDbContext
+dotnet ef database update --context UserDbContext
 ```
 4. Rode a API:
 ```bash
