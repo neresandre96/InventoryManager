@@ -1,43 +1,89 @@
-# InventoryManager
+# ZDZCode - Inventory Manager
 
-Complete inventory management solution with .NET Core API and Vue.js frontend.
+Solução completa de gerenciamento de estoque com ASP.NET Core e Vue.js. Utilizei algumas técnicas que já conhecia como o gerenciamento de dados 
+multi-tenant, para isso foi necessário implementar uma autenticação e autorização básica.
 
-## Project Structure
+## Problemas encontrados
+
+- O <v-navigation-drawer /> as vezes não aparece no modo de desenvolvedor ao fazer hot reload. Para voltar a aparecer é necessário recarregar a página.  
+
+## Estrutura do projeto
 
 - `InventoryManager.API/` - Backend REST API
 - `InventoryManager.Web/` - Frontend Web Application
 
-## Technologies
+## Tecnologias
 
 ### Backend
 - .NET 8.0
 - Entity Framework Core
-- SQL Server
-- JWT Authentication
-- Swagger/OpenAPI
+- SQLite
 
 ### Frontend
 - Vue.js 3
 - Nuxt.js 3
-- TailwindCSS
-- TypeScript
-- Pinia State Management
+- Vuetify 2
+
 
 ## Features
 
-- User Authentication & Authorization
-- Stock Control 
+- Autenticação e Autorização de usuário
+- Sport Multi-Tenant
+- Controle e gerenciamento de estoque
 
-## Getting Started
 
-### Prerequisites
-- .NET 8.0 SDK
-- Node.js (v16+)
-- SQL Server
-- npm or yarn
+## Como executar o projeto
+
 
 ### Backend Setup
 
-1. Navigate to API project:
+1. Navegue para o projeto backend:
 ```bash
-cd InventoryManager.APIa
+cd InventoryManager.API
+```
+
+2. Restaure as dependências:
+```bash
+dotnet restore
+```
+3. Roda as migrações:
+```bash
+dotnet ef database update --context <AppDbContext>
+dotnet ef database update --context <UserDbContext>
+```
+4. Rode a API:
+```bash
+dotnet run dev
+```
+5. Pegue a porta do servidor da API para adicionar no frontend.
+
+
+### Frontend Setup
+
+1. Navegue para o projeto frontend:
+```bash
+cd InventoryManager.Web
+```
+
+2. Instalar dependências:
+```bash
+npm install
+```
+or
+```bash
+yarn install
+```
+
+3. Cria um arquivo `.env` na raiz do projeto e adicionar o seguinte conteúdo:
+```bash
+VUE_APP_API_URL=http://localhost:<YOUR-API-PORT>/api
+VUE_APP_AUTH_URL=http://localhost:<YOUR-API-PORT>/auth
+```
+
+4. Rodar servidor de desenvolvimento:
+```bash
+npm run dev
+```
+
+
+

@@ -1,7 +1,9 @@
 import axios from "axios";
+require('dotenv').config()
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:5165/api",
+  
+  baseURL: process.env.VUE_APP_API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -9,12 +11,26 @@ const apiClient = axios.create({
 });
 
 const authClient = axios.create({
-  baseURL: "http://localhost:5165/auth",
+  baseURL: process.env.VUE_APP_AUTH_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+async function makeRequest(method, url, data = null) {
+  try {
+    const config = data ? { method, url, data } : { method, url };
+    const response = await apiClient(config);
+    
+    if (response.status >= 200 && response.status < 300) {
+      return response.data;
+    }
+    throw new Error(`Erro inesperado: ${response.status}`);
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'Erro desconhecido');
+  }
+}
 
 export const authService = {
   login(data) {
@@ -36,26 +52,26 @@ export const authService = {
 
 export const inventoryService = {
   getIngredients() {
-    return apiClient.get("/Ingredient");
+    return makeRequest('get', '/Ingredient');
   },
 
   getMovements() {
-    return apiClient.get("/Movement");
+    return makeRequest('get', '/Movement');
   },
 
-  createIngredient(data) {
-    return apiClient.post("/Ingredient", data);
+  createIngredient(ingredientData) {
+    return makeRequest('post', '/Ingredient', ingredientData);
   },
 
   updateIngredient(id, data) {
-    return apiClient.put(`/Ingredient/${id}`, data);
+    return makeRequest('put', `/Ingredient/${id}`, data);
   },
 
   deleteIngredient(id) {
-    return apiClient.delete(`/Ingredient/${id}`);
+    return makeRequest('delete', `/Ingredient/${id}`);
   },
 
   createMovement(data) {
-    return apiClient.post("/Movement", data);
+    return makeRequest('post', '/Movement', data);
   },
 };

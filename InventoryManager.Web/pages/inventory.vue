@@ -95,6 +95,7 @@ export default {
       rules: {
         required: v => !!v || 'Campo obrigatório.',
         positive: v => v > 0 || 'Valor deve numérico ser maior que zero.',
+        positiveOrZero: v => v >= 0 || 'Valor deve ser numérico ou zero.',
         uniqueName: v => !this.ingredients.some(i => i.name.toLowerCase() === v?.toLowerCase()) || 'Ingrediente já existe.'
       },
       ingredientHeaders: [
@@ -218,7 +219,7 @@ export default {
     },
     async fetchIngredients() {
       try {
-        const response = await inventoryService.getIngredients()
+        const response = await inventoryService.getIngredients();
 
         const unitMapping = {
           0: "g",
@@ -227,7 +228,7 @@ export default {
           3: "l",
         };
 
-        this.ingredients = response.data.map(ingredient => ({
+        this.ingredients = response.map(ingredient => ({
           id: ingredient.id,
           name: ingredient.name,
           measureUnit: unitMapping[ingredient.measureUnit],
@@ -245,7 +246,7 @@ export default {
       try {
         const response = await inventoryService.getMovements();
 
-        this.movements = response.data.map(movement => ({
+        this.movements = response.map(movement => ({
           id: movement.id,
           date: new Intl.DateTimeFormat("pt-BR", {
             day: "2-digit",
@@ -266,34 +267,39 @@ export default {
         console.error('Erro ao buscar os dados:', error);
       }
     },
-    async handleEntrySubmit(movementData) {
+    async handleEntrySubmit(movementData, resetForm) {
       try {
         await inventoryService.createMovement(movementData)
         this.showSnackbar('Movimento realizado com sucesso!', true)
-        this.fetchIngredients()
-        this.fetchMovements()
-        this.showForm(null)
+        this.fetchIngredients();
+        this.fetchMovements();
+        this.showForm(null);
+        resetForm()
       } catch (error) {
         this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false)
       }
     },
     async handleExitSubmit(movementData) {
       try {
-        await inventoryService.createMovement(movementData)
-        this.showSnackbar('Movimento realizado com sucesso!', true)
-        this.fetchIngredients()
-        this.fetchMovements()
-        this.showForm(null)
+        await inventoryService.createMovement(movementData);
+
+        this.showSnackbar('Movimento realizado com sucesso!', true);
+        this.fetchIngredients();
+        this.fetchMovements();
+        this.showForm(null);
+        resetForm()
       } catch (error) {
         this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false)
       }
     },
-    async handleIngredientSubmit(ingredientData) {
+    async handleIngredientSubmit(ingredientData, resetForm) {
       try {
-        await inventoryService.createIngredient(ingredientData)
-        this.showSnackbar('Ingrediente cadastrado com sucesso!', true)
-        this.fetchIngredients()
-        this.showForm(null)
+        await inventoryService.createIngredient(ingredientData);
+
+        this.showSnackbar('Ingrediente cadastrado com sucesso!', true);
+        this.fetchIngredients();
+        this.showForm(null);
+        resetForm();
       } catch (error) {
         this.showSnackbar('Erro ao realizar o cadastro. ' + error.message, false)
       }

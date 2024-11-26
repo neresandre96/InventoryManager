@@ -73,8 +73,8 @@ export default {
   methods: {
     submitForm() {
       if (!this.form.selectedIngredient || !this.form.weight) {
-        this.$emit('show-error', 'Por favor, preencha todos os campos.')
-        return
+        this.$emit('show-error', 'Por favor, preencha todos os campos.');
+        return;
       }
 
       const movementData = {
@@ -85,8 +85,7 @@ export default {
         price: 0
       }
 
-      this.$emit('submit', movementData)
-      this.resetForm()
+      this.$emit('submit', movementData, this.resetForm());
     },
     resetForm() {
       this.form = {

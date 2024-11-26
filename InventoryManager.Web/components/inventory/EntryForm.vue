@@ -95,8 +95,7 @@ export default {
         price: parseFloat(this.form.cost) || 0
       }
 
-      this.$emit('submit', movementData)
-      this.resetForm()
+      this.$emit('submit', movementData, this.resetForm)
     },
     resetForm() {
       this.form = {

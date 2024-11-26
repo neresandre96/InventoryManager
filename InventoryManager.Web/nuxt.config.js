@@ -11,6 +11,10 @@ export default {
     htmlAttrs: {
       lang: 'en'
     },
+    env: {
+      apiUrl: process.env.VUE_APP_API_URL,
+      authUrl: process.env.VUE_APP_AUTH_URL
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -44,6 +48,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
