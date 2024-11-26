@@ -1,11 +1,11 @@
 # ZDZCode - Inventory Manager
 
-Solução completa de gerenciamento de estoque com ASP.NET Core e Vue.js. Utilizei algumas técnicas que já conhecia como o gerenciamento de dados 
+Solução completa de gerenciamento de estoque com ASP.NET Core e Nuxt.js. Utilizei algumas técnicas que já conhecia como o gerenciamento de dados 
 multi-tenant, para isso foi necessário implementar uma autenticação e autorização básica.
 
 ## Problemas encontrados
 
-- O <v-navigation-drawer /> as vezes não aparece no modo de desenvolvedor ao fazer hot reload. Para voltar a aparecer é necessário recarregar a página.  
+- O menu as vezes não aparece no modo de desenvolvedor ao fazer hot reload. Para voltar a aparecer é necessário recarregar a página.  
 
 ## Estrutura do projeto
 
@@ -20,15 +20,15 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 - SQLite
 
 ### Frontend
-- Vue.js 3
-- Nuxt.js 3
+- Vue.js 2
+- Nuxt.js 2
 - Vuetify 2
 
 
 ## Features
 
 - Autenticação e Autorização de usuário
-- Sport Multi-Tenant
+- Suport Multi-Tenant
 - Controle e gerenciamento de estoque
 
 
@@ -37,25 +37,25 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 
 ### Backend Setup
 
-1. Navegue para o projeto backend:
+1. Navegar para o projeto backend:
 ```bash
 cd InventoryManager.API
 ```
 
-2. Restaure as dependências:
+2. Restaurar as dependências:
 ```bash
 dotnet restore
 ```
-3. Roda as migrações:
+3. Rodar as migrações:
 ```bash
 dotnet ef database update --context AppDbContext
 dotnet ef database update --context UserDbContext
 ```
-4. Rode a API:
+4. Rodar a API:
 ```bash
 dotnet run dev
 ```
-5. Pegue a porta do servidor da API para adicionar no frontend.
+5. Pegar a porta do servidor da API para adicionar no frontend.
 
 
 ### Frontend Setup
