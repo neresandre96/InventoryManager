@@ -1,0 +1,51 @@
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  background-clip: text;
+  -webkit-background-clip: text !important;
+    -webkit-text-fill-color: #fff !important;
+    font-size: 15px;
+    line-height: 1.2;
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+
+}
+
+input:-moz-autofill,
+input:-moz-autofill:hover, 
+input:-moz-autofill:focus, 
+input:-moz-autofill:active {
+  background-clip: text;
+  -webkit-background-clip: text !important;
+
+    font-size: 15px;
+    line-height: 1.2;
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+
+}
+
+input:-ms-autofill,
+input:-ms-autofill:hover, 
+input:-ms-autofill:focus, 
+input:-ms-autofill:active {
+    background-clip: text;
+    -webkit-background-clip: text !important;
+    font-size: 15px;
+    line-height: 1.2;
+    border: none;
+    background-color: transparent;
+    padding: 0 5px;
+}
+
+.container {
+  height: 100%;
+}
+
+body .v-application--wrap {
+  min-height: 100%;
+}

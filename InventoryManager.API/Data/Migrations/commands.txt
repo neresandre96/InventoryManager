@@ -1,0 +1,5 @@
+Data commands
+
+Migrations: dotnet ef migrations add <MigrationName> --context <ContextName> --output-dir Data/Migrations/<Folder>
+
+Update: dotnet ef database update --context <ContextName>
