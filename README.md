@@ -20,8 +20,8 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 - SQLite
 
 ### Frontend
-- Vue.js 3
-- Nuxt.js 3
+- Vue.js 2
+- Nuxt.js 2
 - Vuetify 2
 
 
