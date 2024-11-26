@@ -73,49 +73,12 @@
                 </v-card>
 
                 <v-card v-if="selectedSection === 'preferences'" class="mb-6">
-                    <v-card-title class="text-h6">Preferências</v-card-title>
-                    <v-card-text>
-                        <v-list>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>Notificações por Email</v-list-item-title>
-                                    <v-list-item-subtitle>Receba atualizações importantes por
-                                        email</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-switch v-model="preferences.emailNotifications"></v-switch>
-                                </v-list-item-action>
-                            </v-list-item>
-                            <v-divider></v-divider>
-                            <v-list-item>
-                                <v-list-item-content>
-                                    <v-list-item-title>Tema Escuro</v-list-item-title>
-                                    <v-list-item-subtitle>Alternar entre tema claro e escuro</v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-switch v-model="preferences.darkTheme"></v-switch>
-                                </v-list-item-action>
-                            </v-list-item>
-                        </v-list>
-                    </v-card-text>
+                    
                 </v-card>
 
                 <!-- Segurança -->
                 <v-card v-if="selectedSection === 'security'" class="mb-6">
-                    <v-card-title class="text-h6">Segurança</v-card-title>
-                    <v-card-text>
-                        <v-btn color="primary" block class="mb-4" @click="changePassword">
-                            Alterar Senha
-                            <v-icon right>mdi-lock</v-icon>
-                        </v-btn>
-                        <v-btn color="primary" block outlined class="mb-4" @click="enable2FA">
-                            Ativar Autenticação em Dois Fatores
-                            <v-icon right>mdi-shield-lock</v-icon>
-                        </v-btn>
-                        <v-alert type="info" text dense>
-                            Última atualização de senha: {{ user.lastPasswordUpdate }}
-                        </v-alert>
-                    </v-card-text>
+
                 </v-card>
 
 
@@ -128,7 +91,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { authService } from '~/services/api.service';
 
 export default {
     name: 'AccountDetails',
@@ -165,7 +128,7 @@ export default {
         async logout() {
 
             try {
-                await axios.post('http://localhost:5165/auth/logout', {}, { withCredentials: true });
+                await authService.logout();
 
                 this.$store.dispatch('auth/checkAuthStatus');
 

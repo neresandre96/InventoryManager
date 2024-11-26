@@ -7,89 +7,17 @@
 
           <action-buttons @show-form="showForm" @show-shopping-list="showShoppingList" />
 
-          <!-- Formulário de Ingrediente -->
-          <v-row v-if="currentForm === 'ingrediente'" align="center">
-            <v-row class="mr-2">
-              <v-label>Ingrediente</v-label>
-            </v-row>
+          <ingredient-form v-if="currentForm === 'ingrediente'" :units="units" :rules="rules"
+            @submit="handleIngredientSubmit" @cancel="showForm(null)" @show-error="showSnackbar($event, false)" />
 
-            <v-col cols="3">
-              <v-text-field v-model="name" label="Nome" :rules="[rules.required, rules.uniqueName]"></v-text-field>
-            </v-col>
+          <entry-form v-if="currentForm === 'entrada'" :ingredients="ingredients" :rules="rules"
+            @submit="handleEntrySubmit" @cancel="showForm(null)" @show-error="showSnackbar($event, false)" />
 
-            <v-col cols="2">
-              <v-select v-model="unit" :items="units" label="Medida" outlined :rules="[rules.required]"></v-select>
-            </v-col>
+          <exit-form v-if="currentForm === 'saida'" :ingredients="ingredients" :rules="rules" @submit="handleExitSubmit"
+            @cancel="showForm(null)" @show-error="showSnackbar($event, false)" />
 
-            <v-col cols="2">
-              <v-text-field v-model="minWeight" label="Peso mínimo" suffix="g"
-                :rules="[rules.required, rules.positive]"></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-text-field v-model="initialWeight" label="Peso inicial" suffix="g"></v-text-field>
-            </v-col>
-            <v-spacer />
-
-            <v-col cols="2" class="d-flex flex-column">
-
-              <v-btn depressed x-small color="primary" class="mb-2" @click="submitIngredient()">
-                Confirmar
-              </v-btn>
-
-              <v-btn depressed x-small color="error" @click="showForm(null)">
-                Cancelar
-              </v-btn>
-            </v-col>
-          </v-row>
-
-          <!-- Formulário de Entrada -->
-          <v-row v-if="currentForm === 'entrada'" align="center">
-            <v-col cols="1">
-              <v-label>Entrada</v-label>
-            </v-col>
-            <v-col cols="3">
-              <v-autocomplete v-model="selectedIngredient" :items="ingredients" label="Ingrediente" item-text="name"
-                item-value="id" return-object :rules="[rules.required]"></v-autocomplete>
-            </v-col>
-            <v-col cols="2">
-              <v-text-field v-model="peso" label="Peso" suffix="g"
-                :rules="[rules.required, rules.positive]"></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-text-field v-model="custo" label="Custo" prefix="R$"
-                :rules="[rules.required, rules.positive]"></v-text-field>
-            </v-col>
-            <v-spacer />
-            <v-col cols="2">
-              <v-btn depressed color="primary" @click="submitMovement('entrada')">Confirmar</v-btn>
-            </v-col>
-            <v-col cols="2">
-              <v-btn depressed color="error" @click="showForm(null)">Cancelar</v-btn>
-            </v-col>
-          </v-row>
-
-          <!-- Formulário de Saída -->
-          <v-row v-if="currentForm === 'saida'" align="center">
-            <v-col cols="1">
-              <v-label>Saída</v-label>
-            </v-col>
-            <v-col cols="3">
-              <v-autocomplete v-model="selectedIngredient" :items="ingredients" label="Ingrediente" item-text="name"
-                item-value="id" return-object :rules="[rules.required]"></v-autocomplete>
-            </v-col>
-            <v-col cols="2">
-              <v-text-field v-model="peso" label="Peso" suffix="g"
-                :rules="[rules.required, rules.positive]"></v-text-field>
-            </v-col>
-            <v-spacer />
-            <v-col cols="2">
-              <v-btn depressed color="primary" @click="submitMovement('saida')">Confirmar</v-btn>
-            </v-col>
-            <v-col cols="2">
-              <v-btn depressed color="error" @click="showForm(null)">Cancelar</v-btn>
-            </v-col>
-          </v-row>
         </div>
+
         <v-card>
           <v-tabs v-model="activeTab" background-color="primary" dark grow>
             <v-tab>Estoque</v-tab>
@@ -101,25 +29,10 @@
             <v-tab-item>
               <v-card-text>
                 <v-text-field label="Buscar" v-model="searchQuery"></v-text-field>
-                <v-data-table :headers="ingredientHeaders" :items="filteredIngredients" item-key="Id"
-                  :loading="loadingIngredients" loading-text="Carregando... Aguarde um momento">
-                  <template v-slot:item.status="{ item }">
-                    <v-chip :color="item.status === 'Em estoque' ? 'green' : 'red'" text-color="white">
-                      {{ item.status }}
-                    </v-chip>
-                  </template>
 
-                  <template v-slot:item.actions="{ item }">
-                    <v-btn icon small class="mr-2" @click="editIngredient(item)">
-                      <v-icon small>mdi-pencil</v-icon>
-                    </v-btn>
+                <ingredients-table :ingredientHeaders="ingredientHeaders" :filteredIngredients="filteredIngredients"
+                  :loadingIngredients="loadingIngredients" @edit="editIngredient" @delete="deleteIngredient" />
 
-                    <v-btn icon small @click="deleteIngredient(item)">
-                      <v-icon small>mdi-delete</v-icon>
-                    </v-btn>
-
-                  </template>
-                </v-data-table>
               </v-card-text>
             </v-tab-item>
 
@@ -127,20 +40,13 @@
 
               <v-card-text>
                 <v-text-field label="Buscar" v-model="searchQuery"></v-text-field>
-                <v-data-table :headers="movementHeaders" :items="filteredMovements" item-key="Id" :sort-by="['date']"
-                  :sort-desc="[true]" :loading="loadingMovements" loading-text="Carregando... Aguarde um momento">
-                  <template v-slot:item.move="{ item }">
-                    <v-chip :color="item.move === 'Entrada' ? 'green' : 'red'" text-color="white">
-                      {{ item.move }}
-                    </v-chip>
-                  </template>
-                </v-data-table>
+
+                <movements-table :movementHeaders="movementHeaders" :filteredMovements="filteredMovements"
+                  :loadingMovements="loadingMovements" />
+
               </v-card-text>
-              
             </v-tab-item>
-
           </v-tabs-items>
-
         </v-card>
 
         <snack-bar :show="snackbar.visible" :message="snackbar.message" :success="snackbar.success"
@@ -149,8 +55,8 @@
       </v-col>
     </v-row>
 
-    <shopping-list-modal :show="showShoppingListDialog" :ingredients="filteredLowQuantityIngredients" @copy-list="copyList"
-      @close="closeShoppingList" />
+    <shopping-list-modal :show="showShoppingListDialog" :ingredients="filteredLowQuantityIngredients"
+      @copy-list="copyList" @close="closeShoppingList" />
 
     <edit-ingredient-modal :show="showEditIngredientDialog" :edited-item="editedItem" :units="units" :rules="rules"
       @save="saveEdit" @close="closeEdit" />
@@ -160,11 +66,16 @@
 </template>
 
 <script>
-import axios from 'axios';
-import ActionButtons from '@/components/inventory/ActionButtons.vue'
+import { inventoryService } from '~/services/api.service';
+import ActionButtons from '@/components/inventory/ActionButtons.vue';
 import ShoppingListModal from '~/components/inventory/ShoppingListModal.vue';
 import EditIngredientModal from '~/components/inventory/EditIngredientModal.vue';
 import SnackBar from '~/components/common/SnackBar.vue';
+import IngredientForm from '~/components/inventory/IngredientForm.vue';
+import EntryForm from '~/components/inventory/EntryForm.vue';
+import ExitForm from '~/components/inventory/ExitForm.vue';
+import IngredientsTable from '~/components/inventory/IngredientsTable.vue';
+import MovementsTable from '~/components/inventory/MovementsTable.vue';
 
 export default {
   middleware: 'auth',
@@ -172,7 +83,12 @@ export default {
     ActionButtons,
     ShoppingListModal,
     EditIngredientModal,
-    SnackBar
+    SnackBar,
+    IngredientForm,
+    EntryForm,
+    ExitForm,
+    IngredientsTable,
+    MovementsTable
   },
   data() {
     return {
@@ -204,7 +120,6 @@ export default {
       ingredients: [],
       movements: [],
       activeTab: 0,
-      
       loadingIngredients: true,
       loadingMovements: true,
       searchQuery: '',
@@ -252,14 +167,12 @@ export default {
   },
   methods: {
     editIngredient(item) {
-
       const unitMapping = {
         "g": "0",
         "kg": "1",
         "ml": "2",
         "l": "3"
       };
-
 
       const mappedUnit = unitMapping[item.measureUnit];
 
@@ -273,28 +186,13 @@ export default {
       }
       this.showEditIngredientDialog = true
     },
-
-    closeEdit() {
-      this.showEditIngredientDialog = false
-      this.editedItem = {
-        id: '',
-        name: '',
-        unit: '',
-        minWeight: ''
-      }
-    },
-    closeShoppingList() {
-      this.showShoppingListDialog = false
-
-    },
-
     async saveEdit() {
       try {
-        const response = await axios.put(`http://localhost:5165/api/Ingredient/${this.editedItem.id}`, {
+        await inventoryService.updateIngredient(this.editedItem.id, {
           name: this.editedItem.name,
           minWeight: Number(this.editedItem.minWeight),
           measureUnit: Number(this.editedItem.unit)
-        }, { withCredentials: true })
+        })
 
         this.showSnackbar('Ingrediente atualizado com sucesso!', true)
         this.closeEdit()
@@ -306,7 +204,7 @@ export default {
     async deleteIngredient(item) {
 
       try {
-        const response = await axios.delete(`http://localhost:5165/api/Ingredient/${item.id}`, { withCredentials: true });
+        await inventoryService.deleteIngredient(item.id);
 
         this.fetchIngredients();
         this.snackbar.message = 'Ingrediente excluído com sucesso!';
@@ -317,11 +215,10 @@ export default {
         this.snackbar.success = false;
         this.snackbar.visible = true;
       }
-
     },
     async fetchIngredients() {
       try {
-        const response = await axios.get('http://localhost:5165/api/Ingredient', { withCredentials: true });
+        const response = await inventoryService.getIngredients()
 
         const unitMapping = {
           0: "g",
@@ -346,7 +243,7 @@ export default {
     },
     async fetchMovements() {
       try {
-        const response = await axios.get('http://localhost:5165/api/Movement', { withCredentials: true });
+        const response = await inventoryService.getMovements();
 
         this.movements = response.data.map(movement => ({
           id: movement.id,
@@ -369,40 +266,36 @@ export default {
         console.error('Erro ao buscar os dados:', error);
       }
     },
-    showForm(form) {
-      this.currentForm = form;
-      this.peso = '';
-      this.custo = '';
-      this.selectedIngredient = null;
-    },
-    showShoppingList() {
-      this.showShoppingListDialog = true;
-    },
-    async submitMovement(type) {
-      if (!this.selectedIngredient || !this.peso || (!this.custo && type === 'entrada')) {
-        this.showSnackbar('Por favor, preencha todos os campos.', false);
-        return;
-      }
-
+    async handleEntrySubmit(movementData) {
       try {
-        const movementData = {
-          ingredientId: this.selectedIngredient.id,
-          name: this.selectedIngredient.name,
-          isEntry: type === 'entrada',
-          quantity: parseFloat(this.peso) || 0,
-          price: parseFloat(this.custo) || 0
-        };
-
-        console.log('Dados do movimento:', movementData);
-
-        const response = await axios.post('http://localhost:5165/api/Movement', movementData, { withCredentials: true });
-
-        this.showSnackbar('Movimento realizado com sucesso!', true);
-        this.fetchIngredients();
-        this.fetchMovements();
-        this.showForm(null);
+        await inventoryService.createMovement(movementData)
+        this.showSnackbar('Movimento realizado com sucesso!', true)
+        this.fetchIngredients()
+        this.fetchMovements()
+        this.showForm(null)
       } catch (error) {
-        this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false);
+        this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false)
+      }
+    },
+    async handleExitSubmit(movementData) {
+      try {
+        await inventoryService.createMovement(movementData)
+        this.showSnackbar('Movimento realizado com sucesso!', true)
+        this.fetchIngredients()
+        this.fetchMovements()
+        this.showForm(null)
+      } catch (error) {
+        this.showSnackbar('Erro ao realizar o movimento. ' + error.message, false)
+      }
+    },
+    async handleIngredientSubmit(ingredientData) {
+      try {
+        await inventoryService.createIngredient(ingredientData)
+        this.showSnackbar('Ingrediente cadastrado com sucesso!', true)
+        this.fetchIngredients()
+        this.showForm(null)
+      } catch (error) {
+        this.showSnackbar('Erro ao realizar o cadastro. ' + error.message, false)
       }
     },
     async copyList() {
@@ -415,31 +308,28 @@ export default {
       this.showSnackbar('Lista copiada com sucesso!', true);
       this.showShoppingListDialog = false;
     },
-    async submitIngredient() {
-      if (!this.unit || !this.name || !this.minWeight) {
-        this.showSnackbar('Por favor, preencha todos os campos obrigatórios.', false);
-        return;
-      }
-
-      try {
-        const ingredientData = {
-          name: this.name,
-          minWeight: Number(this.minWeight),
-          actualWeight: Number(this.initialWeight),
-          measureUnit: Number(this.unit)
-        };
-
-        console.log('Dados do ingrediente:', ingredientData);
-
-        const response = await axios.post('http://localhost:5165/api/Ingredient', ingredientData, { withCredentials: true });
-
-        this.showSnackbar('Ingrediente cadastrado com sucesso!', true);
-        this.fetchIngredients();
-        this.showForm(null);
-      } catch (error) {
-        this.showSnackbar('Erro ao realizar o cadastro. ' + error.message, false);
+    showShoppingList() {
+      this.showShoppingListDialog = true;
+    },
+    showForm(form) {
+      this.currentForm = form;
+      this.peso = '';
+      this.custo = '';
+      this.selectedIngredient = null;
+    },
+    closeEdit() {
+      this.showEditIngredientDialog = false
+      this.editedItem = {
+        id: '',
+        name: '',
+        unit: '',
+        minWeight: ''
       }
     },
+    closeShoppingList() {
+      this.showShoppingListDialog = false
+    },
+
     showSnackbar(message, success) {
       this.snackbar.message = message;
       this.snackbar.success = success;

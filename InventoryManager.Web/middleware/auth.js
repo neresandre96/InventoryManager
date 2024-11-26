@@ -1,11 +1,11 @@
-export default async function ({ redirect, route, $axios }) {
+import { authService } from "~/services/api.service";
+
+export default async function ({ redirect, route }) {
   const publicRoutes = ['/', '/login'];
 
   if (route.path === '/login') {
     try {
-      const response = await $axios.get('http://localhost:5165/auth/manage/info', {
-        withCredentials: true,
-      });
+      const response = await authService.checkAuthStatus();
 
       if (response.status === 200) {
         return redirect('/account');
@@ -17,9 +17,7 @@ export default async function ({ redirect, route, $axios }) {
   
   if (!publicRoutes.includes(route.path)) {
     try {
-      const response = await $axios.get('http://localhost:5165/auth/manage/info', {
-        withCredentials: true,
-      });
+      const response = await authService.checkAuthStatus();
 
       if (response.status !== 200) {
         return redirect('/login');

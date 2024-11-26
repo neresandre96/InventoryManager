@@ -57,6 +57,8 @@ Thumbs.db
 *.log
 *.sqlite
 *.db
+*.db-shm
+*.db-wal
 logs/
 *.pid
 npm-debug.log*
