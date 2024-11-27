@@ -9,9 +9,9 @@ multi-tenant, para isso foi necessário implementar uma autenticação e autoriz
 
 ## Observações
 
-- Last updated: 2023-09-26 11:21
+- Último update significativo: 26-09-2023 11:21
 
-To sync run:
+Para sincronizar execute:
 
 ```bash
 git pull origin main
