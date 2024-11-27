@@ -95,5 +95,8 @@ VUE_APP_AUTH_URL=http://localhost:<YOUR-API-PORT>/auth
 npm run dev
 ```
 
+5. Verificar porta do frontend:
 
+A política de CORS da API está configurada para aceitar a porta 3000 do localhost, caso o frontend rode em outra porta, configure o
+Program.cs da API com a porta do seu frontend.
 
